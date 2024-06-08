@@ -9,7 +9,7 @@ public class LED {
 		return new Command() {
 			@Override
 			public String getData() {
-				return String.format("led.sw_rgb(%s,%s,%s,%s)", button.getValue(), color.red(), color.green(), color.blue());
+				return String.format("led.sw_rgb(%s,%s,%s,%s)", button.getSwitchNumber(), color.red(), color.green(), color.blue());
 			}
 		};
 	}
@@ -18,7 +18,7 @@ public class LED {
 		return new Command() {
 			@Override
 			public String getData() {
-				return String.format("led.sw_hsv(%s,%s,%s,%s)", button.getValue(), color.hue(), color.saturation(), color.value());
+				return String.format("led.sw_hsv(%s,%s,%s,%s)", button.getSwitchNumber(), color.hue(), color.saturation(), color.value());
 			}
 		};
 	}
