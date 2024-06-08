@@ -1,9 +1,10 @@
-package to.joe.timer.logic;
+package to.joe.timer.menu;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import to.joe.timer.RGBColor;
+import to.joe.timer.events.ButtonEvent;
 import to.joe.timer.hardware.Command;
 import to.joe.timer.hardware.LCD;
 
@@ -19,6 +20,30 @@ public class Menu {
 		this.LCDColor = LCDColor;
 	}
 	
+	public String getLine1() {
+		return line1;
+	}
+
+	public void setLine1(String line1) {
+		this.line1 = line1;
+	}
+
+	public String getLine2() {
+		return line2;
+	}
+
+	public void setLine2(String line2) {
+		this.line2 = line2;
+	}
+
+	public RGBColor getLCDColor() {
+		return LCDColor;
+	}
+
+	public void setLCDColor(RGBColor lCDColor) {
+		LCDColor = lCDColor;
+	}
+
 	public List<Command> display() {
 		List<Command> l = new ArrayList<Command>();
 		l.add(LCD.clearScreen());
@@ -27,6 +52,10 @@ public class Menu {
 		l.add(LCD.write(line2));
 		l.add(LCD.color(LCDColor));
 		return l;
+	}
+	
+	public void receiveEvent(ButtonEvent event) {
+		
 	}
 
 }

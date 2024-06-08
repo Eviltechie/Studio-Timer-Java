@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import com.fazecast.jSerialComm.SerialPort;
 
+import to.joe.timer.Main;
 import to.joe.timer.events.ButtonEvent;
 import to.joe.timer.events.ButtonEvent.Action;
 
@@ -25,13 +26,19 @@ public class SerialReader extends Thread {
 		while (!isInterrupted()) {
 			try {
 				String line = in.readLine();
+				if (line.equals("raw REPL; CTRL-B to exit")) {
+					
+				}
 				Matcher m = p.matcher(line);
 				if (m.matches()) {
+					ButtonEvent event;
 					if (line.endsWith("press")) {
-						System.out.println(new ButtonEvent(Button.valueOf(m.group(1).toUpperCase()), Action.PRESSED));
+						event = new ButtonEvent(Button.valueOf(m.group(1).toUpperCase()), Action.PRESSED);
 					} else {
-						System.out.println(new ButtonEvent(Button.valueOf(m.group(1).toUpperCase()), Action.RELEASED));
+						event = new ButtonEvent(Button.valueOf(m.group(1).toUpperCase()), Action.RELEASED);
 					}
+					System.out.println(event);
+					Main.menuController.receiveEvent(event);
 				} else {
 					System.out.println(line);
 				}

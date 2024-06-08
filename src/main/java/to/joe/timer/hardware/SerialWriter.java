@@ -42,7 +42,7 @@ public class SerialWriter extends Thread {
 		queue.add(new Command() {
 			@Override
 			public String getData() {
-				return Character.toString((char)3) + Character.toString((char)4); //Control + C, Control + D
+				return Character.toString((char)2) + Character.toString((char)3) + Character.toString((char)4); //Control + B, Control + C, Control + D
 			}
 		});
 	}
