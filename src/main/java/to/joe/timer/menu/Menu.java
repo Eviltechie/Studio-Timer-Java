@@ -7,14 +7,17 @@ import to.joe.timer.RGBColor;
 import to.joe.timer.events.ButtonEvent;
 import to.joe.timer.hardware.Command;
 import to.joe.timer.hardware.LCD;
+import to.joe.timer.logic.MenuController;
 
 public class Menu {
 	
 	private String line1;
 	private String line2;
 	private RGBColor LCDColor;
+	private MenuController menuController;
 	
-	public Menu(String line1, String line2, RGBColor LCDColor) {
+	public Menu(MenuController menuController, String line1, String line2, RGBColor LCDColor) {
+		this.menuController = menuController;
 		this.line1 = line1;
 		this.line2 = line2;
 		this.LCDColor = LCDColor;
@@ -54,7 +57,11 @@ public class Menu {
 		return l;
 	}
 	
-	public void receiveEvent(ButtonEvent event) {
+	public MenuController getMenuController() {
+		return menuController;
+	}
+	
+	public void handleEvent(ButtonEvent event) {
 		
 	}
 

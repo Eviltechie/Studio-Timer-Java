@@ -38,7 +38,7 @@ public class SerialReader extends Thread {
 						event = new ButtonEvent(Button.valueOf(m.group(1).toUpperCase()), Action.RELEASED);
 					}
 					System.out.println(event);
-					Main.menuController.receiveEvent(event);
+					Main.menuController.handleEvent(event);
 				} else {
 					System.out.println(line);
 				}

@@ -9,17 +9,18 @@ import to.joe.timer.events.ButtonEvent;
 import to.joe.timer.events.ButtonEvent.Action;
 import to.joe.timer.hardware.Button;
 import to.joe.timer.hardware.LED;
+import to.joe.timer.logic.MenuController;
 
 public class TestMenu extends ButtonMenu {
 	
 	private Random random = new Random();
 
-	public TestMenu(String line1, RGBColor button1Color, RGBColor button2Color, RGBColor button3Color) {
-		super(line1, "Left | ? | Right", new RGBColor(255, 255, 255), button1Color, button2Color, button3Color);
+	public TestMenu(MenuController menuController, String line1, RGBColor button1Color, RGBColor button2Color, RGBColor button3Color) {
+		super(menuController, line1, "Left | ? | Right", new RGBColor(255, 255, 255), button1Color, button2Color, button3Color);
 	}
 	
 	@Override
-	public void receiveEvent(ButtonEvent event) {
+	public void handleEvent(ButtonEvent event) {
 		Button b = event.getButton();
 		if (b.isDigit()) {
 			if (event.getAction() == Action.PRESSED) {
@@ -27,6 +28,12 @@ public class TestMenu extends ButtonMenu {
 			} else {
 				Main.hardware.getSerialWriter().add(LED.switchHSV(b, new HSVColor(0, 0, 0)));
 			}
+		}
+		if (b == Button.SOFTKEY_3 && event.getAction() == Action.PRESSED) {
+			getMenuController().nextMenu();
+		}
+		if (b == Button.SOFTKEY_1 && event.getAction() == Action.PRESSED) {
+			getMenuController().previousMenu();
 		}
 	}
 

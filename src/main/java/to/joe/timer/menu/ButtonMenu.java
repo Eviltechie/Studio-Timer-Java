@@ -6,6 +6,7 @@ import to.joe.timer.RGBColor;
 import to.joe.timer.hardware.Button;
 import to.joe.timer.hardware.Command;
 import to.joe.timer.hardware.LED;
+import to.joe.timer.logic.MenuController;
 
 public class ButtonMenu extends Menu {
 	
@@ -13,8 +14,8 @@ public class ButtonMenu extends Menu {
 	private RGBColor button2Color;
 	private RGBColor button3Color;
 
-	public ButtonMenu(String line1, String line2, RGBColor LCDColor, RGBColor button1Color, RGBColor button2Color, RGBColor button3Color) {
-		super(line1, line2, LCDColor);
+	public ButtonMenu(MenuController menuController, String line1, String line2, RGBColor LCDColor, RGBColor button1Color, RGBColor button2Color, RGBColor button3Color) {
+		super(menuController, line1, line2, LCDColor);
 		
 		this.button1Color = button1Color;
 		this.button2Color = button2Color;
