@@ -24,9 +24,9 @@ public class TestMenu extends ButtonMenu {
 		Button b = event.getButton();
 		if (b.isDigit()) {
 			if (event.getAction() == Action.PRESSED) {
-				Main.hardware.getSerialWriter().add(LED.switchHSV(b, new HSVColor(random.nextInt(255), 255, 255)));
+				Main.hardware.getSerialWriter().add(LED.switchColor(b, new HSVColor(random.nextInt(255), 255, 255)));
 			} else {
-				Main.hardware.getSerialWriter().add(LED.switchHSV(b, new HSVColor(0, 0, 0)));
+				Main.hardware.getSerialWriter().add(LED.switchColor(b, HSVColor.BLACK));
 			}
 		}
 		if (b == Button.SOFTKEY_3 && event.getAction() == Action.PRESSED) {

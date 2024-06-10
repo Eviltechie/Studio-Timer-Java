@@ -2,6 +2,8 @@ package to.joe.timer.color;
 
 /**
  * Hue, saturation, and value are 0-255 full range.
+ * <br><br>
+ * Attempts to keep equal brightness no matter the hue.
  */
 public record HSVColor(int hue, int saturation, int value) implements Color {
 	
@@ -56,6 +58,8 @@ public record HSVColor(int hue, int saturation, int value) implements Color {
 	}
 	
 	public static HSVColor BLACK = new HSVColor(0, 0, 0);
+	
+	public static HSVColor WHITE = new HSVColor(0, 0, 255);
 	public static HSVColor RED = new HSVColor(0, 255, 255);
 	public static HSVColor ORANGE = new HSVColor(32, 255, 255);
 	public static HSVColor YELLOW = new HSVColor(64, 255, 255);
@@ -64,5 +68,15 @@ public record HSVColor(int hue, int saturation, int value) implements Color {
 	public static HSVColor BLUE = new HSVColor(160, 255, 255);
 	public static HSVColor PURPLE = new HSVColor(192, 255, 255);
 	public static HSVColor PINK = new HSVColor(224, 255, 255);
+	
+	public static HSVColor WHITE_DIM = new HSVColor(0, 0, 128);
+	public static HSVColor RED_DIM = new HSVColor(0, 255, 128);
+	public static HSVColor ORANGE_DIM = new HSVColor(32, 255, 128);
+	public static HSVColor YELLOW_DIM = new HSVColor(64, 255, 128);
+	public static HSVColor GREEN_DIM = new HSVColor(96, 255, 128);
+	public static HSVColor AQUA_DIM = new HSVColor(128, 255, 128);
+	public static HSVColor BLUE_DIM = new HSVColor(160, 255, 128);
+	public static HSVColor PURPLE_DIM = new HSVColor(192, 255, 128);
+	public static HSVColor PINK_DIM = new HSVColor(224, 255, 128);
 
 }

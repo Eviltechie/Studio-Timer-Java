@@ -1,5 +1,6 @@
 package to.joe.timer.hardware;
 
+import to.joe.timer.color.Color;
 import to.joe.timer.color.RGBColor;
 
 public class LCD {
@@ -31,11 +32,12 @@ public class LCD {
 		};
 	}
 	
-	public static Command color(RGBColor color) {
+	public static Command color(Color color) {
 		return new Command() {
 			@Override
 			public String getData() {
-				return String.format("led.lcd_rgb(%s,%s,%s)", color.red(), color.green(), color.blue());
+				RGBColor rgbColor = color.toRGB();
+				return String.format("led.lcd_rgb(%s,%s,%s)", rgbColor.red(), rgbColor.green(), rgbColor.blue());
 			}
 		};
 	}

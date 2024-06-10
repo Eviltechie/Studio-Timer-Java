@@ -1,22 +1,54 @@
 package to.joe.timer;
 
-import to.joe.timer.color.RGBColor;
+import to.joe.timer.color.Color;
 import to.joe.timer.logic.MenuController;
+import to.joe.timer.menu.timer.DirectionPresetMenu;
+import to.joe.timer.menu.timer.FiveSecondsMenu;
+import to.joe.timer.menu.timer.OneMinuteMenu;
+import to.joe.timer.menu.timer.SpeedMenu;
+import to.joe.timer.menu.timer.TimerSelectMenu;
 
 public class Timer implements Runnable {
 	
 	private static int MAX_TIME = 359999; // We can't display higher than 99h 59m 59s.
 	
 	private String timerName;
-	private RGBColor timerColor;
+	private Color timerColor;
 	private volatile Direction direction = Direction.UP;
 	private volatile boolean running = false;
 	private volatile int timeSeconds = 0;
 	private volatile int rateMiliseconds = 1000;
 	private MenuController menuController;
 	
-	public Timer(String name) {
+	public Timer(String name, Color timerColor) {
 		this.timerName = name;
+		this.timerColor = timerColor;
+		menuController = new MenuController();
+		menuController.addMenuElement(new DirectionPresetMenu(menuController, this));
+		menuController.addMenuElement(new FiveSecondsMenu(menuController, this));
+		menuController.addMenuElement(new OneMinuteMenu(menuController, this));
+		menuController.addMenuElement(new SpeedMenu(menuController, this));
+		menuController.addMenuElement(new TimerSelectMenu(menuController, this));
+	}
+	
+	public String getTimerName() {
+		return timerName;
+	}
+	
+	public void setTimerName(String timerName) {
+		this.timerName = timerName;
+	}
+	
+	public Color getTimerColor() {
+		return timerColor;
+	}
+	
+	public void setTimerColor(Color timerColor) {
+		this.timerColor = timerColor;
+	}
+	
+	public MenuController getMenuController() {
+		return menuController;
 	}
 	
 	@Override
@@ -74,12 +106,24 @@ public class Timer implements Runnable {
 		running = false;
 	}
 	
+	public int getRate() {
+		return rateMiliseconds;
+	}
+	
 	public void changeRate(int miliseconds) {
 		rateMiliseconds = miliseconds;
 	}
 	
+	public int getTime() {
+		return timeSeconds;
+	}
+	
 	public void setTime(int seconds) {
 		timeSeconds = seconds;
+	}
+	
+	public Direction getDirection() {
+		return direction;
 	}
 	
 	public void setDirection(Direction direction) {

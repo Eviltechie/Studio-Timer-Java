@@ -2,27 +2,26 @@ package to.joe.timer.logic;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.List;
 
 import to.joe.timer.Main;
 import to.joe.timer.events.ButtonEvent;
+import to.joe.timer.hardware.Command;
 import to.joe.timer.menu.Menu;
 
 public class MenuController {
 	
-	private Menu currentMenu;
+	private Menu currentMenu = null;
 	private Deque<Menu> menuElements = new ArrayDeque<Menu>();
-	
-	public MenuController(Menu initialMenu) {
-		currentMenu = initialMenu;
-		menuElements.addLast(initialMenu);
-		Main.hardware.getSerialWriter().add(currentMenu.display());
-	}
 	
 	public void handleEvent(ButtonEvent event) {
 		currentMenu.handleEvent(event);
 	}
 	
 	public void addMenuElement(Menu menu) {
+		if (currentMenu == null) {
+			currentMenu = menu;
+		}
 		menuElements.addLast(menu);
 	}
 	
@@ -42,6 +41,10 @@ public class MenuController {
 		currentMenu = menuElements.getFirst();
 		
 		Main.hardware.getSerialWriter().add(currentMenu.display());
+	}
+	
+	public List<Command> display() {
+		return currentMenu.display();
 	}
 
 }

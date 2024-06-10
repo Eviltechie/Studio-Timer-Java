@@ -3,7 +3,7 @@ package to.joe.timer.menu;
 import java.util.ArrayList;
 import java.util.List;
 
-import to.joe.timer.color.RGBColor;
+import to.joe.timer.color.Color;
 import to.joe.timer.events.ButtonEvent;
 import to.joe.timer.hardware.Command;
 import to.joe.timer.hardware.LCD;
@@ -13,10 +13,10 @@ public class Menu {
 	
 	private String line1;
 	private String line2;
-	private RGBColor LCDColor;
+	private Color LCDColor;
 	private MenuController menuController;
 	
-	public Menu(MenuController menuController, String line1, String line2, RGBColor LCDColor) {
+	public Menu(MenuController menuController, String line1, String line2, Color LCDColor) {
 		this.menuController = menuController;
 		this.line1 = line1;
 		this.line2 = line2;
@@ -39,11 +39,11 @@ public class Menu {
 		this.line2 = line2;
 	}
 
-	public RGBColor getLCDColor() {
+	public Color getLCDColor() {
 		return LCDColor;
 	}
 
-	public void setLCDColor(RGBColor lCDColor) {
+	public void setLCDColor(Color lCDColor) {
 		LCDColor = lCDColor;
 	}
 

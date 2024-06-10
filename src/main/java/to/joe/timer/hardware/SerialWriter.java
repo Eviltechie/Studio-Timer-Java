@@ -8,7 +8,7 @@ import com.fazecast.jSerialComm.SerialPort;
 
 public class SerialWriter extends Thread {
 	
-	private static final String END_OF_COMMAND = "~";
+	private static final String END_OF_COMMAND = "`";
 	
 	private BlockingQueue<Command> queue = new LinkedBlockingQueue<Command>();
 	private PrintWriter out;
