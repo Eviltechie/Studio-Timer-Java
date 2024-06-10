@@ -1,17 +1,22 @@
 package to.joe.timer;
 
+import to.joe.timer.color.RGBColor;
+import to.joe.timer.logic.MenuController;
+
 public class Timer implements Runnable {
 	
 	private static int MAX_TIME = 359999; // We can't display higher than 99h 59m 59s.
 	
-	private String name;
+	private String timerName;
+	private RGBColor timerColor;
 	private volatile Direction direction = Direction.UP;
 	private volatile boolean running = false;
 	private volatile int timeSeconds = 0;
 	private volatile int rateMiliseconds = 1000;
+	private MenuController menuController;
 	
 	public Timer(String name) {
-		this.name = name;
+		this.timerName = name;
 	}
 	
 	@Override
@@ -83,7 +88,7 @@ public class Timer implements Runnable {
 	
 	@Override
 	public String toString() {
-		return String.format("Name: %s, Direction: %s, Time: %s, Running: %s, Rate: %s", name, direction, timeSeconds, running, rateMiliseconds);
+		return String.format("Name: %s, Direction: %s, Time: %s, Running: %s, Rate: %s", timerName, direction, timeSeconds, running, rateMiliseconds);
 	}
 
 }

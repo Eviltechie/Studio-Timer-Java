@@ -1,15 +1,19 @@
-package to.joe.timer;
+package to.joe.timer.color;
 
-public class HSV {
+/**
+ * Hue, saturation, and value are 0-255 full range.
+ */
+public record HSVColor(int hue, int saturation, int value) implements Color {
 	
-	private int scaleToRange(int oldValue, int oldMinimum, int oldMax, int newMinimum, int newMax) {
+	private static float scaleToRange(float oldValue, float oldMinimum, float oldMax, float newMinimum, float newMax) {
 		return (((oldValue - oldMinimum) * (newMax - newMinimum)) / (oldMax - oldMinimum)) + newMinimum;
 	}
 	
-	public RGBColor hsvToRGB(int hue, int saturation, int value) {
-		int r = 0;
-		int g = 0;
-		int b = 0;
+	@Override
+	public RGBColor toRGB() {
+		float r = 0;
+		float g = 0;
+		float b = 0;
 		
 		// Red
 		if (0 <= hue && hue < 32) { // red to orange
@@ -48,9 +52,17 @@ public class HSV {
 		g = scaleToRange(value, 0, 255, 0, g);
 		b = scaleToRange(value, 0, 255, 0, b);
 		
-		// TODO Round?
-		
-		return new RGBColor(r, g, b);
+		return new RGBColor(Math.round(r), Math.round(g), Math.round(b));
 	}
+	
+	public static HSVColor BLACK = new HSVColor(0, 0, 0);
+	public static HSVColor RED = new HSVColor(0, 255, 255);
+	public static HSVColor ORANGE = new HSVColor(32, 255, 255);
+	public static HSVColor YELLOW = new HSVColor(64, 255, 255);
+	public static HSVColor GREEN = new HSVColor(96, 255, 255);
+	public static HSVColor AQUA = new HSVColor(128, 255, 255);
+	public static HSVColor BLUE = new HSVColor(160, 255, 255);
+	public static HSVColor PURPLE = new HSVColor(192, 255, 255);
+	public static HSVColor PINK = new HSVColor(224, 255, 255);
 
 }

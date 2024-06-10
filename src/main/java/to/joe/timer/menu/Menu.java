@@ -3,7 +3,7 @@ package to.joe.timer.menu;
 import java.util.ArrayList;
 import java.util.List;
 
-import to.joe.timer.RGBColor;
+import to.joe.timer.color.RGBColor;
 import to.joe.timer.events.ButtonEvent;
 import to.joe.timer.hardware.Command;
 import to.joe.timer.hardware.LCD;

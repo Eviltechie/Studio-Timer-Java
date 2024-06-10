@@ -2,9 +2,9 @@ package to.joe.timer.menu;
 
 import java.util.Random;
 
-import to.joe.timer.HSVColor;
 import to.joe.timer.Main;
-import to.joe.timer.RGBColor;
+import to.joe.timer.color.HSVColor;
+import to.joe.timer.color.RGBColor;
 import to.joe.timer.events.ButtonEvent;
 import to.joe.timer.events.ButtonEvent.Action;
 import to.joe.timer.hardware.Button;

@@ -4,22 +4,17 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 import to.joe.timer.Main;
-import to.joe.timer.RGBColor;
 import to.joe.timer.events.ButtonEvent;
 import to.joe.timer.menu.Menu;
-import to.joe.timer.menu.TestMenu;
 
 public class MenuController {
 	
 	private Menu currentMenu;
 	private Deque<Menu> menuElements = new ArrayDeque<Menu>();
 	
-	public MenuController() {
-		currentMenu = new TestMenu(this, "Test Menu 1", new RGBColor(255, 0, 0), new RGBColor(0, 255, 0), new RGBColor(0, 0, 255));
-		menuElements.addLast(currentMenu);
-		menuElements.addLast(new TestMenu(this, "Test Menu 2", new RGBColor(0, 255, 0), new RGBColor(0, 0, 255), new RGBColor(255, 0, 0)));
-		menuElements.addLast(new TestMenu(this, "Test Menu 3", new RGBColor(0, 0, 255), new RGBColor(255, 0, 0), new RGBColor(0, 255, 0)));
-		menuElements.addLast(new TestMenu(this, "Test Menu 4", new RGBColor(0, 0, 255), new RGBColor(255, 0, 0), new RGBColor(0, 255, 0)));
+	public MenuController(Menu initialMenu) {
+		currentMenu = initialMenu;
+		menuElements.addLast(initialMenu);
 		Main.hardware.getSerialWriter().add(currentMenu.display());
 	}
 	

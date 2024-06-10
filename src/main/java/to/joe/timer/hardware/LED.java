@@ -1,7 +1,7 @@
 package to.joe.timer.hardware;
 
-import to.joe.timer.HSVColor;
-import to.joe.timer.RGBColor;
+import to.joe.timer.color.HSVColor;
+import to.joe.timer.color.RGBColor;
 
 public class LED {
 	
