@@ -64,5 +64,7 @@ public class Menu {
 	public void handleEvent(ButtonEvent event) {
 		
 	}
+	
+	// TODO Maybe add a reset class to clean up after a menu goes inactive? That way we won't accidently be in a state we don't want to be when we go around again.
 
 }

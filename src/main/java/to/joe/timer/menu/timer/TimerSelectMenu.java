@@ -18,6 +18,7 @@ public class TimerSelectMenu extends ButtonMenu {
 	public void handleEvent(ButtonEvent event) {
 		Button b = event.getButton();
 		if (b == Button.SOFTKEY_3 && event.getAction() == Action.PRESSED) {
+			event.consume();
 			getMenuController().nextMenu();
 		}
 	}

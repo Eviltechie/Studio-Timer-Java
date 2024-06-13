@@ -46,5 +46,9 @@ public class MenuController {
 	public List<Command> display() {
 		return currentMenu.display();
 	}
+	
+	public void draw() {
+		Main.hardware.getSerialWriter().add(display());
+	}
 
 }
