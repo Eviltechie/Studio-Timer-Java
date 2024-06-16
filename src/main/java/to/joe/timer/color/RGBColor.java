@@ -9,5 +9,14 @@ public record RGBColor(int red, int green, int blue) implements Color {
 	public RGBColor toRGB() {
 		return this;
 	}
+	
+	@Override
+	public boolean isTransparent() {
+		if (red == -1 && green == -1 && blue == -1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 }

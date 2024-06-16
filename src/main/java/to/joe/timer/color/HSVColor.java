@@ -13,6 +13,10 @@ public record HSVColor(int hue, int saturation, int value) implements Color {
 	
 	@Override
 	public RGBColor toRGB() {
+		if (isTransparent()) {
+			return new RGBColor(-1, -1, -1);
+		}
+		
 		float r = 0;
 		float g = 0;
 		float b = 0;
@@ -57,7 +61,17 @@ public record HSVColor(int hue, int saturation, int value) implements Color {
 		return new RGBColor(Math.round(r), Math.round(g), Math.round(b));
 	}
 	
+	@Override
+	public boolean isTransparent() {
+		if (hue == -1 && saturation == -1 && value == -1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public static HSVColor BLACK = new HSVColor(0, 0, 0);
+	public static HSVColor TRANSPARENT = new HSVColor(-1, -1, -1);
 	
 	public static HSVColor WHITE = new HSVColor(0, 0, 255);
 	public static HSVColor RED = new HSVColor(0, 255, 255);

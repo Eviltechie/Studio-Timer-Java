@@ -118,6 +118,7 @@ public class Timer implements Runnable {
 		return timeSeconds;
 	}
 	
+	// TODO Silently validate or throw exception? (Don't want seconds going out of range.)
 	public void setTime(int seconds) {
 		timeSeconds = seconds;
 	}

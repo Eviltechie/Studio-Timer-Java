@@ -8,5 +8,6 @@ package to.joe.timer.color;
 public interface Color {
 	
 	public RGBColor toRGB();
+	public boolean isTransparent();
 
 }

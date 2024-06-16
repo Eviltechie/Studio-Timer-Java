@@ -15,13 +15,11 @@ import to.joe.timer.menu.ButtonMenu;
 
 public class DirectionPresetMenu extends ButtonMenu {
 	
-	private MenuController menuController;
 	private Timer timer;
 	private boolean preset = false;
 	
 	public DirectionPresetMenu(MenuController menuController, Timer timer) {
 		super(menuController, String.format("Timer: %s", timer.getTimerName()), "Down  Preset   ~", timer.getTimerColor(), HSVColor.BLACK, HSVColor.BLUE_DIM, HSVColor.WHITE_DIM);
-		this.menuController = menuController;
 		this.timer = timer;
 		if (timer.getDirection() == Direction.UP) {
 			setButton1Color(HSVColor.GREEN);
@@ -36,6 +34,13 @@ public class DirectionPresetMenu extends ButtonMenu {
 	public void handleEvent(ButtonEvent event) {
 		Button b = event.getButton();
 		if (event.getAction() == Action.PRESSED) {
+			if (preset && b.isDigit()) {
+				if (b.digitValue() == 0) {
+					timer.setTime(30);
+				} else {
+					timer.setTime(b.digitValue() * 60);
+				}
+			}
 			if (b == Button.SOFTKEY_1) {
 				if (timer.getDirection() == Direction.UP) {
 					timer.setDirection(Direction.DOWN);
@@ -47,12 +52,12 @@ public class DirectionPresetMenu extends ButtonMenu {
 					setButton1Color(HSVColor.GREEN);
 				}
 				event.consume();
-				menuController.draw();
+				getMenuController().draw();
 			}
 			if (b == Button.SOFTKEY_2) {
 				preset = true;
 				event.consume();
-				menuController.draw();
+				getMenuController().draw();
 			}
 			if (b == Button.SOFTKEY_3) {
 				getMenuController().nextMenu();
@@ -62,7 +67,7 @@ public class DirectionPresetMenu extends ButtonMenu {
 		if (event.getAction() == Action.RELEASED && b == Button.SOFTKEY_2) {
 			preset = false;
 			event.consume();
-			menuController.draw();
+			getMenuController().draw();
 		}
 	}
 	
