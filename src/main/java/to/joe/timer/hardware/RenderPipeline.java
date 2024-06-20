@@ -27,9 +27,6 @@ public class RenderPipeline {
 		
 		ButtonColorState finalState = ButtonColorState.over(colorStates);
 		
-		serialWriter.add(finalState.getCommands());
-		serialWriter.add(LCD.color(currentMenu.getLCDColor()));
-		
 		if (line1.equals(currentMenu.getLine1()) && line2.equals(currentMenu.getLine2())) {
 			// Pass
 		} else {
@@ -40,6 +37,9 @@ public class RenderPipeline {
 			serialWriter.add(LCD.setPosition(1, 0));
 			serialWriter.add(LCD.write(line2));
 		}
+		
+		serialWriter.add(finalState.getCommands());
+		serialWriter.add(LCD.color(currentMenu.getLCDColor()));
 	}
 
 }
