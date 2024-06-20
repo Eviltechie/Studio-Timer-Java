@@ -7,6 +7,7 @@ public class Hardware {
 	private SerialPort serialPort;
 	private SerialReader serialReader;
 	private SerialWriter serialWriter;
+	private RenderPipeline renderPipeline;
 	
 	public Hardware(String portName) {
 		serialPort = SerialPort.getCommPort(portName);
@@ -21,10 +22,16 @@ public class Hardware {
 		serialWriter = new SerialWriter(serialPort);
 		serialWriter.start();
 		serialWriter.reset();
+		
+		renderPipeline = new RenderPipeline(serialWriter);
 	}
 
 	public SerialWriter getSerialWriter() {
 		return serialWriter;
+	}
+	
+	public RenderPipeline getRenderPipeline() {
+		return renderPipeline;
 	}
 
 }

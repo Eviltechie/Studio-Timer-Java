@@ -1,6 +1,8 @@
 package to.joe.timer;
 
 import to.joe.timer.color.Color;
+import to.joe.timer.hardware.Button;
+import to.joe.timer.hardware.ButtonColorState;
 import to.joe.timer.logic.MenuController;
 import to.joe.timer.menu.timer.DirectionPresetMenu;
 import to.joe.timer.menu.timer.FiveSecondsMenu;
@@ -19,6 +21,7 @@ public class Timer implements Runnable {
 	private volatile int timeSeconds = 0;
 	private volatile int rateMiliseconds = 1000;
 	private MenuController menuController;
+	private ButtonColorState buttonColorState = new ButtonColorState();
 	
 	public Timer(String name, Color timerColor) {
 		this.timerName = name;
@@ -29,6 +32,16 @@ public class Timer implements Runnable {
 		menuController.addMenuElement(new OneMinuteMenu(menuController, this));
 		menuController.addMenuElement(new SpeedMenu(menuController, this));
 		menuController.addMenuElement(new TimerSelectMenu(menuController, this));
+		buttonColorState.setButtonColor(Button.DIGIT_0, timerColor);
+		buttonColorState.setButtonColor(Button.DIGIT_1, timerColor);
+		buttonColorState.setButtonColor(Button.DIGIT_2, timerColor);
+		buttonColorState.setButtonColor(Button.DIGIT_3, timerColor);
+		buttonColorState.setButtonColor(Button.DIGIT_4, timerColor);
+		buttonColorState.setButtonColor(Button.DIGIT_5, timerColor);
+		buttonColorState.setButtonColor(Button.DIGIT_6, timerColor);
+		buttonColorState.setButtonColor(Button.DIGIT_7, timerColor);
+		buttonColorState.setButtonColor(Button.DIGIT_8, timerColor);
+		buttonColorState.setButtonColor(Button.DIGIT_9, timerColor);
 	}
 	
 	public String getTimerName() {
@@ -49,6 +62,10 @@ public class Timer implements Runnable {
 	
 	public MenuController getMenuController() {
 		return menuController;
+	}
+	
+	public ButtonColorState getButtonColorState() {
+		return buttonColorState;
 	}
 	
 	@Override

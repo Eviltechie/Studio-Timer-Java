@@ -16,11 +16,24 @@ public class ButtonColorState { //TODO should probably redo this whole thing wit
 		}
 	}
 	
-	public void switchColor(Button button, Color color) {
+	public void setButtonColor(Button button, Color color) {
 		buttonColors[button.getSwitchNumber() - 1] = color;
 	}
 	
-	public List<Command> draw() {
+	public void setKeypadColor(Color color) {
+		setButtonColor(Button.DIGIT_0, color);
+		setButtonColor(Button.DIGIT_1, color);
+		setButtonColor(Button.DIGIT_2, color);
+		setButtonColor(Button.DIGIT_3, color);
+		setButtonColor(Button.DIGIT_4, color);
+		setButtonColor(Button.DIGIT_5, color);
+		setButtonColor(Button.DIGIT_6, color);
+		setButtonColor(Button.DIGIT_7, color);
+		setButtonColor(Button.DIGIT_8, color);
+		setButtonColor(Button.DIGIT_9, color);
+	}
+	
+	public List<Command> getCommands() {
 		List<Command> commands = new ArrayList<Command>();
 		for (int i = 0; i < buttonColors.length; i++) {
 			if (buttonColors[i].isTransparent()) {

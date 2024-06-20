@@ -1,31 +1,32 @@
 package to.joe.timer.menu.timer;
 
-import java.util.List;
-
 import to.joe.timer.Direction;
+import to.joe.timer.Main;
 import to.joe.timer.Timer;
 import to.joe.timer.color.HSVColor;
 import to.joe.timer.events.ButtonEvent;
 import to.joe.timer.events.ButtonEvent.Action;
 import to.joe.timer.hardware.Button;
-import to.joe.timer.hardware.Command;
-import to.joe.timer.hardware.LED;
 import to.joe.timer.logic.MenuController;
-import to.joe.timer.menu.ButtonMenu;
+import to.joe.timer.menu.Menu;
 
-public class DirectionPresetMenu extends ButtonMenu {
+public class DirectionPresetMenu extends Menu {
 	
 	private Timer timer;
 	private boolean preset = false;
 	
 	public DirectionPresetMenu(MenuController menuController, Timer timer) {
-		super(menuController, String.format("Timer: %s", timer.getTimerName()), "Down  Preset   ~", timer.getTimerColor(), HSVColor.BLACK, HSVColor.BLUE_DIM, HSVColor.WHITE_DIM);
+		super(menuController);
+		setLine1(String.format("Timer: %s", timer.getTimerName()));
+		setLCDColor(timer.getTimerColor());
+		getButtonColorState().setButtonColor(Button.SOFTKEY_2, HSVColor.BLUE_DIM);
+		getButtonColorState().setButtonColor(Button.SOFTKEY_3, HSVColor.WHITE_DIM);
 		this.timer = timer;
 		if (timer.getDirection() == Direction.UP) {
-			setButton1Color(HSVColor.GREEN);
+			getButtonColorState().setButtonColor(Button.SOFTKEY_1, HSVColor.GREEN);
 			setLine2("Up    Preset   ~");
 		} else {
-			setButton1Color(HSVColor.RED);
+			getButtonColorState().setButtonColor(Button.SOFTKEY_1, HSVColor.RED);
 			setLine2("Down  Preset   ~");
 		}
 	}
@@ -45,19 +46,20 @@ public class DirectionPresetMenu extends ButtonMenu {
 				if (timer.getDirection() == Direction.UP) {
 					timer.setDirection(Direction.DOWN);
 					setLine2("Down  Preset   ~");
-					setButton1Color(HSVColor.RED);
+					getButtonColorState().setButtonColor(Button.SOFTKEY_1, HSVColor.RED);
 				} else {
 					timer.setDirection(Direction.UP);
 					setLine2("Up    Preset   ~");
-					setButton1Color(HSVColor.GREEN);
+					getButtonColorState().setButtonColor(Button.SOFTKEY_1, HSVColor.GREEN);
 				}
 				event.consume();
-				getMenuController().draw();
+				Main.hardware.getRenderPipeline().draw();
 			}
 			if (b == Button.SOFTKEY_2) {
 				preset = true;
+				getButtonColorState().setKeypadColor(HSVColor.BLUE_DIM);
 				event.consume();
-				getMenuController().draw();
+				Main.hardware.getRenderPipeline().draw();
 			}
 			if (b == Button.SOFTKEY_3) {
 				getMenuController().nextMenu();
@@ -66,20 +68,16 @@ public class DirectionPresetMenu extends ButtonMenu {
 		}
 		if (event.getAction() == Action.RELEASED && b == Button.SOFTKEY_2) {
 			preset = false;
+			getButtonColorState().setKeypadColor(HSVColor.TRANSPARENT);
 			event.consume();
-			getMenuController().draw();
+			Main.hardware.getRenderPipeline().draw();
 		}
 	}
 	
 	@Override
-	public List<Command> display() {
-		List<Command> commands = super.display();
-		if (preset) {
-			commands.add(LED.keypadColor(HSVColor.BLUE_DIM));
-		} else {
-			commands.add(LED.keypadColor(HSVColor.BLACK));
-		}
-		return commands;
+	public void inactive() {
+		preset = false;
+		getButtonColorState().setKeypadColor(HSVColor.TRANSPARENT);
 	}
 
 }

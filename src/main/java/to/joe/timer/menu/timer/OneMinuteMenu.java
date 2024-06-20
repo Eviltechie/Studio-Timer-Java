@@ -6,12 +6,18 @@ import to.joe.timer.events.ButtonEvent;
 import to.joe.timer.events.ButtonEvent.Action;
 import to.joe.timer.hardware.Button;
 import to.joe.timer.logic.MenuController;
-import to.joe.timer.menu.ButtonMenu;
+import to.joe.timer.menu.Menu;
 
-public class OneMinuteMenu extends ButtonMenu {
+public class OneMinuteMenu extends Menu {
 	
 	public OneMinuteMenu(MenuController menuController, Timer timer) {
-		super(menuController, String.format("Timer: %s", timer.getTimerName()), "-1m    +1m     ~", timer.getTimerColor(), HSVColor.WHITE, HSVColor.WHITE, HSVColor.WHITE);
+		super(menuController);
+		setLine1(String.format("Timer: %s", timer.getTimerName()));
+		setLine2("-1m    +1m     ~");
+		setLCDColor(timer.getTimerColor());
+		getButtonColorState().setButtonColor(Button.SOFTKEY_1, HSVColor.WHITE);
+		getButtonColorState().setButtonColor(Button.SOFTKEY_2, HSVColor.WHITE);
+		getButtonColorState().setButtonColor(Button.SOFTKEY_3, HSVColor.WHITE);
 	}
 	
 	@Override
