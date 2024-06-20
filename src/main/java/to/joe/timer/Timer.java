@@ -1,7 +1,6 @@
 package to.joe.timer;
 
 import to.joe.timer.color.Color;
-import to.joe.timer.hardware.Button;
 import to.joe.timer.hardware.ButtonColorState;
 import to.joe.timer.logic.MenuController;
 import to.joe.timer.menu.timer.DirectionPresetMenu;
@@ -32,16 +31,7 @@ public class Timer implements Runnable {
 		menuController.addMenuElement(new OneMinuteMenu(menuController, this));
 		menuController.addMenuElement(new SpeedMenu(menuController, this));
 		menuController.addMenuElement(new TimerSelectMenu(menuController, this));
-		buttonColorState.setButtonColor(Button.DIGIT_0, timerColor);
-		buttonColorState.setButtonColor(Button.DIGIT_1, timerColor);
-		buttonColorState.setButtonColor(Button.DIGIT_2, timerColor);
-		buttonColorState.setButtonColor(Button.DIGIT_3, timerColor);
-		buttonColorState.setButtonColor(Button.DIGIT_4, timerColor);
-		buttonColorState.setButtonColor(Button.DIGIT_5, timerColor);
-		buttonColorState.setButtonColor(Button.DIGIT_6, timerColor);
-		buttonColorState.setButtonColor(Button.DIGIT_7, timerColor);
-		buttonColorState.setButtonColor(Button.DIGIT_8, timerColor);
-		buttonColorState.setButtonColor(Button.DIGIT_9, timerColor);
+		buttonColorState.setKeypadColor(timerColor);
 	}
 	
 	public String getTimerName() {
