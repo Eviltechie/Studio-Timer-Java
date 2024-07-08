@@ -4,8 +4,11 @@ import to.joe.timer.color.Color;
 import to.joe.timer.color.HSVColor;
 import to.joe.timer.events.ButtonEvent;
 import to.joe.timer.events.ButtonEvent.Action;
+import to.joe.timer.events.Event;
+import to.joe.timer.events.TimerStopEvent;
 import to.joe.timer.hardware.Button;
 import to.joe.timer.hardware.ButtonColorState;
+import to.joe.timer.hardware.LED;
 import to.joe.timer.logic.MenuController;
 import to.joe.timer.menu.timer.DirectionPresetMenu;
 import to.joe.timer.menu.timer.FiveSecondsMenu;
@@ -71,21 +74,23 @@ public class Timer implements Runnable {
 				if (running) { // We check if still running after sleeping in case we've stopped since then.
 					if (direction == Direction.DOWN) {
 						if (timeSeconds <= 0) {
-							stopTimer();
+							running = false;
 						} else {
 							timeSeconds--;
+							Main.hardware.getSerialWriter().add(LED.sevenSegment(timeSeconds));
 						}
 						if (timeSeconds <= 0) {
-							stopTimer();
+							running = false;
 						}
 					} else { // UP
 						if (timeSeconds >= MAX_TIME) {
-							stopTimer();
+							running = false;
 						} else {
 							timeSeconds++;
+							Main.hardware.getSerialWriter().add(LED.sevenSegment(timeSeconds));
 						}
 						if (timeSeconds >= MAX_TIME) {
-							stopTimer();
+							running = false;
 						}
 					}
 					System.out.println(this);
@@ -94,6 +99,7 @@ public class Timer implements Runnable {
 				running = false;
 			}
 		}
+		Main.eventQueue.add(new TimerStopEvent());
 	}
 	
 	public boolean startTimer() {
@@ -122,10 +128,6 @@ public class Timer implements Runnable {
 	}
 	
 	public void stopTimer() {
-		synchronized (buttonColorState) { //TOOD IDK if this is right
-			buttonColorState.setButtonColor(Button.START_STOP, HSVColor.RED);
-			Main.hardware.getRenderPipeline().draw();
-		}
 		running = false;
 	}
 	
@@ -154,14 +156,21 @@ public class Timer implements Runnable {
 		this.direction = direction;
 	}
 	
-	public void handleEvent(ButtonEvent event) {
-		if (event.getButton() == Button.START_STOP && event.getAction() == Action.PRESSED) {
-			if (running) {
-				stopTimer();
-			} else {
-				startTimer();
-			}
+	public void handleEvent(Event event) {
+		if (event instanceof TimerStopEvent) {
+			buttonColorState.setButtonColor(Button.START_STOP, HSVColor.RED);
 			Main.hardware.getRenderPipeline().draw();
+		}
+		if (event instanceof ButtonEvent) {
+			ButtonEvent buttonEvent = (ButtonEvent) event;
+			if (buttonEvent.getButton() == Button.START_STOP && buttonEvent.getAction() == Action.PRESSED) {
+				if (running) {
+					stopTimer();
+				} else {
+					startTimer();
+				}
+				Main.hardware.getRenderPipeline().draw();
+			}
 		}
 	}
 	

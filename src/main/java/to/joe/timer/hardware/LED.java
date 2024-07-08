@@ -34,5 +34,28 @@ public class LED {
 			}
 		};
 	}
+	
+	public static Command sevenSegment(int timeSeconds) {
+		return new Command() {
+			@Override
+			public String getData() {
+				int hours = timeSeconds / 3600;
+				int remainder = timeSeconds % 3600;
+				int minutes = remainder / 60;
+				int seconds = remainder % 60;
+				String timeString = String.format("%02d%02d%02d", hours, minutes, seconds);
+				return String.format("led.digits(\"%s\")", timeString); //colons(a, b, c, d)
+			}
+		};
+	}
+	
+	public static Command colons(int a, int b, int c, int d) {
+		return new Command() {
+			@Override
+			public String getData() {
+				return String.format("led.colons(%s,%s,%s,%s)", a, b, c, d);
+			}
+		};
+	}
 
 }

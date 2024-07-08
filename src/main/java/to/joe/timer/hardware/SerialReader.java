@@ -11,6 +11,7 @@ import com.fazecast.jSerialComm.SerialPort;
 import to.joe.timer.Main;
 import to.joe.timer.events.ButtonEvent;
 import to.joe.timer.events.ButtonEvent.Action;
+import to.joe.timer.events.Event;
 
 public class SerialReader extends Thread {
 	
@@ -31,14 +32,14 @@ public class SerialReader extends Thread {
 				}
 				Matcher m = p.matcher(line);
 				if (m.matches()) {
-					ButtonEvent event;
+					Event event;
 					if (line.endsWith("press")) {
 						event = new ButtonEvent(Button.valueOf(m.group(1).toUpperCase()), Action.PRESSED);
 					} else {
 						event = new ButtonEvent(Button.valueOf(m.group(1).toUpperCase()), Action.RELEASED);
 					}
 					System.out.println(event);
-					Main.eventHandler.sendButtonEvent(event);
+					Main.eventQueue.add(event);
 				} else {
 					System.out.println(line);
 				}

@@ -2,7 +2,7 @@ package to.joe.timer.events;
 
 import to.joe.timer.hardware.Button;
 
-public class ButtonEvent implements Event {
+public class ButtonEvent extends ConsumableEvent {
 	
 	public enum Action {
 		PRESSED,
@@ -11,7 +11,6 @@ public class ButtonEvent implements Event {
 	
 	private Button button;
 	private Action action;
-	private boolean consumed = false;
 	
 	public ButtonEvent(Button button, Action action) {
 		this.button = button;
@@ -24,14 +23,6 @@ public class ButtonEvent implements Event {
 	
 	public Action getAction() {
 		return action;
-	}
-	
-	public void consume() {
-		consumed = true;
-	}
-	
-	public boolean isConsumed() {
-		return consumed;
 	}
 	
 	@Override

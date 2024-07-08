@@ -1,5 +1,5 @@
 package to.joe.timer.events;
 
-public interface Event {
+public abstract class Event {
 
 }

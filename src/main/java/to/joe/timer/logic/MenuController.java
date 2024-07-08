@@ -4,7 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 import to.joe.timer.Main;
-import to.joe.timer.events.ButtonEvent;
+import to.joe.timer.events.Event;
 import to.joe.timer.menu.Menu;
 
 public class MenuController {
@@ -12,7 +12,7 @@ public class MenuController {
 	private Menu currentMenu = null;
 	private Deque<Menu> menuElements = new ArrayDeque<Menu>();
 	
-	public void handleEvent(ButtonEvent event) {
+	public void handleEvent(Event event) {
 		currentMenu.handleEvent(event);
 	}
 	

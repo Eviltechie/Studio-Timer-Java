@@ -2,7 +2,7 @@ package to.joe.timer.menu;
 
 import to.joe.timer.color.Color;
 import to.joe.timer.color.HSVColor;
-import to.joe.timer.events.ButtonEvent;
+import to.joe.timer.events.Event;
 import to.joe.timer.hardware.ButtonColorState;
 import to.joe.timer.logic.MenuController;
 
@@ -50,7 +50,7 @@ public class Menu {
 		return menuController;
 	}
 	
-	public void handleEvent(ButtonEvent event) {
+	public void handleEvent(Event event) {
 		
 	}
 	

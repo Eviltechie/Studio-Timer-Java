@@ -4,6 +4,7 @@ import to.joe.timer.Timer;
 import to.joe.timer.color.HSVColor;
 import to.joe.timer.events.ButtonEvent;
 import to.joe.timer.events.ButtonEvent.Action;
+import to.joe.timer.events.Event;
 import to.joe.timer.hardware.Button;
 import to.joe.timer.logic.MenuController;
 import to.joe.timer.menu.Menu;
@@ -24,20 +25,24 @@ public class FiveSecondsMenu extends Menu {
 	}
 	
 	@Override
-	public void handleEvent(ButtonEvent event) {
-		Button b = event.getButton();
-		if (event.getAction() == Action.PRESSED) {
-			if (b == Button.SOFTKEY_1) {
-				timer.setTime(timer.getTime() - 5);
-			}
-			if (b == Button.SOFTKEY_2) {
-				timer.setTime(timer.getTime() + 5);
-			}
-			if (b == Button.SOFTKEY_3) {
-				event.consume();
-				getMenuController().nextMenu();
+	public void handleEvent(Event event) {
+		if (event instanceof ButtonEvent) {
+			ButtonEvent buttonEvent = (ButtonEvent) event;
+			Button b = buttonEvent.getButton();
+			if (buttonEvent.getAction() == Action.PRESSED) {
+				if (b == Button.SOFTKEY_1) {
+					timer.setTime(timer.getTime() - 5);
+				}
+				if (b == Button.SOFTKEY_2) {
+					timer.setTime(timer.getTime() + 5);
+				}
+				if (b == Button.SOFTKEY_3) {
+					buttonEvent.consume();
+					getMenuController().nextMenu();
+				}
 			}
 		}
+		
 	}
 
 }
