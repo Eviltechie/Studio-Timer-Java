@@ -26,7 +26,7 @@ public class SerialReader extends Thread {
 		while (!isInterrupted()) {
 			try {
 				String line = in.readLine();
-				if (line.equals("raw REPL; CTRL-B to exit")) {
+				if (line.equals("raw REPL; CTRL-B to exit")) { //TODO What was going on here?
 					
 				}
 				Matcher m = p.matcher(line);
@@ -38,7 +38,7 @@ public class SerialReader extends Thread {
 						event = new ButtonEvent(Button.valueOf(m.group(1).toUpperCase()), Action.RELEASED);
 					}
 					System.out.println(event);
-					Main.menuController.handleEvent(event);
+					Main.eventHandler.sendButtonEvent(event);
 				} else {
 					System.out.println(line);
 				}

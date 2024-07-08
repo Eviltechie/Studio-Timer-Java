@@ -1,6 +1,7 @@
 package to.joe.timer;
 
 import to.joe.timer.color.HSVColor;
+import to.joe.timer.events.EventHandler;
 import to.joe.timer.hardware.Hardware;
 import to.joe.timer.logic.MenuController;
 
@@ -8,11 +9,13 @@ public class Main {
 
 	public static Hardware hardware;
 	public static MenuController menuController;
+	public static EventHandler eventHandler;
 	public static Timer timer;
 
 	public static void main(String[] args) {
 		hardware = new Hardware("COM7");
 		timer = new Timer("Timer A", HSVColor.ORANGE);
+		eventHandler = new EventHandler();
 		menuController = timer.getMenuController();
 		hardware.getRenderPipeline().draw();
 		

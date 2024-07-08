@@ -1,6 +1,10 @@
 package to.joe.timer;
 
 import to.joe.timer.color.Color;
+import to.joe.timer.color.HSVColor;
+import to.joe.timer.events.ButtonEvent;
+import to.joe.timer.events.ButtonEvent.Action;
+import to.joe.timer.hardware.Button;
 import to.joe.timer.hardware.ButtonColorState;
 import to.joe.timer.logic.MenuController;
 import to.joe.timer.menu.timer.DirectionPresetMenu;
@@ -32,6 +36,7 @@ public class Timer implements Runnable {
 		menuController.addMenuElement(new SpeedMenu(menuController, this));
 		menuController.addMenuElement(new TimerSelectMenu(menuController, this));
 		buttonColorState.setKeypadColor(timerColor);
+		buttonColorState.setButtonColor(Button.START_STOP, HSVColor.RED);
 	}
 	
 	public String getTimerName() {
@@ -106,10 +111,21 @@ public class Timer implements Runnable {
 		
 		new Thread(this).start();
 		running = true;
+		
+		if (running) {
+			buttonColorState.setButtonColor(Button.START_STOP, HSVColor.GREEN);
+		} else {
+			buttonColorState.setButtonColor(Button.START_STOP, HSVColor.RED);
+		}
+		
 		return true;
 	}
 	
 	public void stopTimer() {
+		synchronized (buttonColorState) { //TOOD IDK if this is right
+			buttonColorState.setButtonColor(Button.START_STOP, HSVColor.RED);
+			Main.hardware.getRenderPipeline().draw();
+		}
 		running = false;
 	}
 	
@@ -136,6 +152,17 @@ public class Timer implements Runnable {
 	
 	public void setDirection(Direction direction) {
 		this.direction = direction;
+	}
+	
+	public void handleEvent(ButtonEvent event) {
+		if (event.getButton() == Button.START_STOP && event.getAction() == Action.PRESSED) {
+			if (running) {
+				stopTimer();
+			} else {
+				startTimer();
+			}
+			Main.hardware.getRenderPipeline().draw();
+		}
 	}
 	
 	@Override

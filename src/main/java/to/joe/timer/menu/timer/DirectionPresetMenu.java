@@ -41,6 +41,7 @@ public class DirectionPresetMenu extends Menu {
 				} else {
 					timer.setTime(b.digitValue() * 60);
 				}
+				event.consume();
 			}
 			if (b == Button.SOFTKEY_1) {
 				if (timer.getDirection() == Direction.UP) {
