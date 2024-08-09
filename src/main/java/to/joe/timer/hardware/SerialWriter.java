@@ -6,6 +6,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import com.fazecast.jSerialComm.SerialPort;
 
+import to.joe.timer.hardware.commands.Command;
+
 public class SerialWriter extends Thread {
 	
 	private static final String END_OF_COMMAND = "`";
@@ -17,34 +19,8 @@ public class SerialWriter extends Thread {
 		out = new PrintWriter(port.getOutputStream());
 	}
 	
-	/**
-	 * Add a single command to execute on the control surface.
-	 * @param c The command to add.
-	 */
-	public void add(Command c) {
-		queue.add(c);
-	}
-	
-	/**
-	 * Add multiple commands to execute on the control surface.
-	 * @param commands {@link Iterable} of commands to add.
-	 */
-	public void add(Iterable<Command> commands) {
-		for (Command c : commands) {
-			queue.add(c);
-		}
-	}
-	
-	/**
-	 * Stops and starts execution of main.py on the control surface.
-	 */
-	public void reset() {
-		queue.add(new Command() {
-			@Override
-			public String getData() {
-				return Character.toString((char)2) + Character.toString((char)3) + Character.toString((char)4); //Control + B, Control + C, Control + D
-			}
-		});
+	public BlockingQueue<Command> getCommandQueue() {
+		return queue;
 	}
 	
 	@Override

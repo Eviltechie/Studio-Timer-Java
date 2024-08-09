@@ -1,4 +1,4 @@
-package to.joe.timer.hardware;
+package to.joe.timer.hardware.commands;
 
 import to.joe.timer.color.Color;
 import to.joe.timer.color.RGBColor;

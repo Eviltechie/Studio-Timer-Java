@@ -1,23 +1,29 @@
-package to.joe.timer.hardware;
+package to.joe.timer.renderpipeline;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import to.joe.timer.color.Color;
 import to.joe.timer.color.HSVColor;
+import to.joe.timer.hardware.Button;
+import to.joe.timer.hardware.commands.Command;
+import to.joe.timer.hardware.commands.LED;
 
-public class ButtonColorState { //TODO should probably redo this whole thing with a map instead of an array
+public class ButtonColorState {
 	
-	private Color buttonColors[] = new Color[Button.values().length];
+	private Map<Button, Color> buttonColors = new HashMap<Button, Color>();
 	
 	public ButtonColorState() {
-		for (int i = 0; i < buttonColors.length; i++) {
-			buttonColors[i] = HSVColor.TRANSPARENT;
+		for (Button b : Button.values()) {
+			buttonColors.put(b, HSVColor.TRANSPARENT);
 		}
 	}
 	
 	public void setButtonColor(Button button, Color color) {
-		buttonColors[button.getSwitchNumber() - 1] = color;
+		buttonColors.put(button, color);
 	}
 	
 	public void setKeypadColor(Color color) {
@@ -35,11 +41,11 @@ public class ButtonColorState { //TODO should probably redo this whole thing wit
 	
 	public List<Command> getCommands() {
 		List<Command> commands = new ArrayList<Command>();
-		for (int i = 0; i < buttonColors.length; i++) {
-			if (buttonColors[i].isTransparent()) {
-				commands.add(LED.switchColor(i + 1, HSVColor.BLACK));
+		for (Entry<Button, Color> entry : buttonColors.entrySet()) {
+			if (entry.getValue().isTransparent()) {
+				commands.add(LED.switchColor(entry.getKey(), HSVColor.BLACK));
 			} else {
-				commands.add(LED.switchColor(i + 1, buttonColors[i]));
+				commands.add(LED.switchColor(entry.getKey(), entry.getValue()));
 			}
 		}
 		return commands;
@@ -48,9 +54,9 @@ public class ButtonColorState { //TODO should probably redo this whole thing wit
 	public static ButtonColorState over(List<ButtonColorState> states) {
 		ButtonColorState finalState = new ButtonColorState();
 		for (ButtonColorState buttonColorState : states) {
-			for (int i = 0; i < buttonColorState.buttonColors.length; i++) {
-				if (!buttonColorState.buttonColors[i].isTransparent()) {
-					finalState.buttonColors[i] = buttonColorState.buttonColors[i];
+			for (Entry<Button, Color> entry : buttonColorState.buttonColors.entrySet()) {
+				if (!entry.getValue().isTransparent()) {
+					finalState.buttonColors.put(entry.getKey(), entry.getValue());
 				}
 			}
 		}

@@ -3,8 +3,8 @@ package to.joe.timer.menu;
 import to.joe.timer.color.Color;
 import to.joe.timer.color.HSVColor;
 import to.joe.timer.events.Event;
-import to.joe.timer.hardware.ButtonColorState;
-import to.joe.timer.logic.MenuController;
+import to.joe.timer.main.TimerApplication;
+import to.joe.timer.renderpipeline.ButtonColorState;
 
 public class Menu {
 	
@@ -12,10 +12,10 @@ public class Menu {
 	private String line2 = "";
 	private Color LCDColor = HSVColor.BLACK;
 	private ButtonColorState buttonColorState = new ButtonColorState();
-	private MenuController menuController;
+	private TimerApplication timerApplication;
 	
-	public Menu(MenuController menuController) {
-		this.menuController = menuController;
+	public Menu(TimerApplication timerApplication) {
+		this.timerApplication = timerApplication;
 	}
 	
 	public String getLine1() {
@@ -46,14 +46,21 @@ public class Menu {
 		return buttonColorState;
 	}
 	
-	public MenuController getMenuController() {
-		return menuController;
+	protected TimerApplication getTimerApplication() {
+		return timerApplication;
 	}
 	
 	public void handleEvent(Event event) {
 		
 	}
 	
+	public void active() {
+		
+	}
+	
+	/**
+	 * Marks the menu as no longer active, so it can clear any internal state.
+	 */
 	public void inactive() {
 		
 	}

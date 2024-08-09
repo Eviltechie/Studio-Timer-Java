@@ -1,4 +1,4 @@
-package to.joe.timer.hardware;
+package to.joe.timer.hardware.commands;
 
 public interface Command {
 	

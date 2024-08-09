@@ -7,6 +7,17 @@ package to.joe.timer.color;
  */
 public record HSVColor(int hue, int saturation, int value) implements Color {
 	
+	public HSVColor {
+		if (hue > 255 || saturation > 255 || value > 255) {
+			throw new IllegalArgumentException("Value out of range");
+		}
+		if (hue == -1 && saturation == -1 && value == -1) {
+			// Pass
+		} else if (hue <= -1 || saturation <= -1 || value <= -1) {
+			throw new IllegalArgumentException("Value out of range"); 
+		}
+	}
+	
 	private static float scaleToRange(float oldValue, float oldMinimum, float oldMax, float newMinimum, float newMax) {
 		return (((oldValue - oldMinimum) * (newMax - newMinimum)) / (oldMax - oldMinimum)) + newMinimum;
 	}

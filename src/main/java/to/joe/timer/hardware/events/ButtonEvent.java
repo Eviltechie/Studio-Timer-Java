@@ -1,5 +1,6 @@
-package to.joe.timer.events;
+package to.joe.timer.hardware.events;
 
+import to.joe.timer.events.ConsumableEvent;
 import to.joe.timer.hardware.Button;
 
 public class ButtonEvent extends ConsumableEvent {

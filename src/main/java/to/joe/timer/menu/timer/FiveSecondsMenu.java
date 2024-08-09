@@ -1,27 +1,24 @@
 package to.joe.timer.menu.timer;
 
-import to.joe.timer.Timer;
 import to.joe.timer.color.HSVColor;
-import to.joe.timer.events.ButtonEvent;
-import to.joe.timer.events.ButtonEvent.Action;
 import to.joe.timer.events.Event;
 import to.joe.timer.hardware.Button;
-import to.joe.timer.logic.MenuController;
+import to.joe.timer.hardware.events.ButtonEvent;
+import to.joe.timer.hardware.events.ButtonEvent.Action;
+import to.joe.timer.main.TimerApplication;
 import to.joe.timer.menu.Menu;
+import to.joe.timer.timercontroller.TimerContainer;
 
 public class FiveSecondsMenu extends Menu {
 	
-	private Timer timer;
+	private TimerContainer timerContainer;
 	
-	public FiveSecondsMenu(MenuController menuController, Timer timer) {
-		super(menuController);
-		setLine1(String.format("Timer: %s", timer.getTimerName()));
+	public FiveSecondsMenu(TimerApplication timerApplication) {
+		super(timerApplication);
 		setLine2("-5s    +5s     ~");
-		setLCDColor(timer.getTimerColor());
-		getButtonColorState().setButtonColor(Button.SOFTKEY_1, HSVColor.WHITE);
-		getButtonColorState().setButtonColor(Button.SOFTKEY_2, HSVColor.WHITE);
-		getButtonColorState().setButtonColor(Button.SOFTKEY_3, HSVColor.WHITE);
-		this.timer = timer;
+		getButtonColorState().setButtonColor(Button.SOFTKEY_1, HSVColor.WHITE_DIM);
+		getButtonColorState().setButtonColor(Button.SOFTKEY_2, HSVColor.WHITE_DIM);
+		getButtonColorState().setButtonColor(Button.SOFTKEY_3, HSVColor.WHITE_DIM);
 	}
 	
 	@Override
@@ -31,18 +28,39 @@ public class FiveSecondsMenu extends Menu {
 			Button b = buttonEvent.getButton();
 			if (buttonEvent.getAction() == Action.PRESSED) {
 				if (b == Button.SOFTKEY_1) {
-					timer.setTime(timer.getTime() - 5);
+					buttonEvent.consume();
+					try {
+						timerContainer.getTimer().setTime(timerContainer.getTimer().getTime() - 5);
+					} catch (Exception e) {
+						// Pass
+					}
 				}
 				if (b == Button.SOFTKEY_2) {
-					timer.setTime(timer.getTime() + 5);
+					buttonEvent.consume();
+					try {
+						timerContainer.getTimer().setTime(timerContainer.getTimer().getTime() + 5);
+					} catch (Exception e) {
+						// Pass
+					}
 				}
 				if (b == Button.SOFTKEY_3) {
 					buttonEvent.consume();
-					getMenuController().nextMenu();
+					getTimerApplication().getMenuController().nextMenu();
 				}
 			}
 		}
-		
+	}
+	
+	@Override
+	public void active() {
+		timerContainer = getTimerApplication().getTimerController().getActiveTimer();
+		setLine1(String.format("%s", timerContainer.getTimerName()));
+		setLCDColor(timerContainer.getColor());
+	}
+	
+	@Override
+	public void inactive() {
+		timerContainer = null;
 	}
 
 }

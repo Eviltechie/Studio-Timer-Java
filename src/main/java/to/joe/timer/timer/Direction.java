@@ -1,4 +1,4 @@
-package to.joe.timer;
+package to.joe.timer.timer;
 
 public enum Direction {
 	

@@ -1,24 +1,25 @@
 package to.joe.timer.menu.timer;
 
-import to.joe.timer.Timer;
 import to.joe.timer.color.HSVColor;
-import to.joe.timer.events.ButtonEvent;
-import to.joe.timer.events.ButtonEvent.Action;
 import to.joe.timer.events.Event;
 import to.joe.timer.hardware.Button;
-import to.joe.timer.logic.MenuController;
+import to.joe.timer.hardware.events.ButtonEvent;
+import to.joe.timer.hardware.events.ButtonEvent.Action;
+import to.joe.timer.main.TimerApplication;
 import to.joe.timer.menu.Menu;
+import to.joe.timer.timer.events.TimerChangeEvent;
+import to.joe.timer.timercontroller.TimerContainer;
 
 public class SpeedMenu extends Menu {
 	
-	public SpeedMenu(MenuController menuController, Timer timer) {
-		super(menuController);
-		setLine1(String.format("Timer: %s", timer.getTimerName()));
-		setLine2("-10%   +10%    ~");
-		setLCDColor(timer.getTimerColor());
-		getButtonColorState().setButtonColor(Button.SOFTKEY_1, HSVColor.WHITE);
-		getButtonColorState().setButtonColor(Button.SOFTKEY_2, HSVColor.WHITE);
-		getButtonColorState().setButtonColor(Button.SOFTKEY_3, HSVColor.WHITE);
+	private TimerContainer timerContainer;
+	
+	public SpeedMenu(TimerApplication timerApplication) {
+		super(timerApplication);
+		setLine2("Slow    Fast   ~");
+		getButtonColorState().setButtonColor(Button.SOFTKEY_1, HSVColor.WHITE_DIM);
+		getButtonColorState().setButtonColor(Button.SOFTKEY_2, HSVColor.WHITE_DIM);
+		getButtonColorState().setButtonColor(Button.SOFTKEY_3, HSVColor.WHITE_DIM);
 	}
 	
 	@Override
@@ -26,12 +27,52 @@ public class SpeedMenu extends Menu {
 		if (event instanceof ButtonEvent) {
 			ButtonEvent buttonEvent = (ButtonEvent) event;
 			Button b = buttonEvent.getButton();
-			if (b == Button.SOFTKEY_3 && buttonEvent.getAction() == Action.PRESSED) {
-				buttonEvent.consume();
-				getMenuController().nextMenu();
+			if (buttonEvent.getAction() == Action.PRESSED) {
+				if (b == Button.SOFTKEY_1) {
+					buttonEvent.consume();
+					try {
+						timerContainer.getTimer().setRate(timerContainer.getTimer().getRate() + 50);
+						setLine1(String.format("%s  %sms", timerContainer.getTimerName(), timerContainer.getTimer().getRate()));
+						getTimerApplication().getRenderPipeline().redraw();
+					} catch (IllegalArgumentException e) {
+						// Pass
+					}
+				}
+				if (b == Button.SOFTKEY_2) {
+					buttonEvent.consume();
+					try {
+						timerContainer.getTimer().setRate(timerContainer.getTimer().getRate() - 50);
+						setLine1(String.format("%s  %sms", timerContainer.getTimerName(), timerContainer.getTimer().getRate()));
+						getTimerApplication().getRenderPipeline().redraw();
+					} catch (IllegalArgumentException e) {
+						// Pass
+					}
+				}
+				if (b == Button.SOFTKEY_3) {
+					buttonEvent.consume();
+					getTimerApplication().getMenuController().nextMenu();
+				}
 			}
 		}
-		
+		if (event instanceof TimerChangeEvent) {
+			TimerChangeEvent timerChangeEvent = (TimerChangeEvent) event;
+			if (timerChangeEvent.getTimer().equals(timerContainer.getTimer())) {
+				setLine1(String.format("%s  %sms", timerContainer.getTimerName(), timerContainer.getTimer().getRate()));
+				getTimerApplication().getRenderPipeline().redraw();
+			}
+		}
+	}
+	
+	@Override
+	public void active() {
+		timerContainer = getTimerApplication().getTimerController().getActiveTimer();
+		setLine1(String.format("%s  %sms", timerContainer.getTimerName(), timerContainer.getTimer().getRate()));
+		setLCDColor(timerContainer.getColor());
+	}
+	
+	@Override
+	public void inactive() {
+		timerContainer = null;
 	}
 
 }
